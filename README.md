@@ -36,7 +36,7 @@ This library is published under the [Apache License, Version 2.0](https://www.ap
 [Maven Central]:https://maven-badges.herokuapp.com/maven-central/io.github.pustike/pustike-web
 [Maven Central img]:https://maven-badges.herokuapp.com/maven-central/io.github.pustike/pustike-web/badge.svg
 [latest-jar]:https://search.maven.org/remote_content?g=io.github.pustike&a=pustike-web&v=LATEST
-~
+
 [Javadocs]:https://javadoc.io/doc/io.github.pustike/pustike-web
 [Javadocs img]:https://javadoc.io/badge/io.github.pustike/pustike-web.svg
 
