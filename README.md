@@ -1,9 +1,9 @@
 ﻿Pustike Web   [![][Maven Central img]][Maven Central] [![][Javadocs img]][Javadocs] [![][license img]][license]
 ===========
-Pustike Web provides API for creating application using RESTful Web Services with a central servlet `DispatcherServlet`, having an API similar to [JAX-RS](https://github.com/eclipse-ee4j/jaxrs-api). Applications developed using this library can be deployed in any Servlet container like other web frameworks.
+Pustike Web provides API for creating application using RESTful Web Services with a central servlet `DispatcherServlet`, having an API similar to [JAX-RS](https://github.com/jakartaee/rest). Applications developed using this library can be deployed in any Servlet container like other web frameworks.
 
 Following are some of its key features:
-* RESTful web services using a central servlet `DispatcherServlet` with an API similar to [JAX-RS](https://github.com/eclipse-ee4j/jaxrs-api).
+* RESTful web services using a central servlet `DispatcherServlet` with an API similar to [JAX-RS](https://github.com/jakartaee/rest).
 * Provides resource class or method level annotation `@Path` to specify the relative path.
 * Specify the HTTP request method of a resource using: `@GET`, `@PUT`, `@POST`, `@DELETE`, `@HEAD`.
 * Specify the accepted request media type using `@Consumes`.
@@ -13,7 +13,7 @@ Following are some of its key features:
 * Scopes: `RequestScope` that stores created instances as attributes in the request.
 * Static resource servlet to serve files or user defined static content.
 * Support for JSON - object mapping with option to output selected fields only, based on user defined context.
-* Requires Java 11 and it has dependencies to servlet-api and pustike inject, json libraries.
+* Requires Java 17 and it has dependencies to servlet-api and pustike inject, json libraries.
 
 **Documentation:** Latest javadocs is available [here][Javadocs].
 
@@ -24,7 +24,7 @@ To add a dependency using Maven, use the following:
 <dependency>
     <groupId>io.github.pustike</groupId>
     <artifactId>pustike-web</artifactId>
-    <version>0.8.0</version>
+    <version>0.9.0</version>
 </dependency>
 ```
 Or, download the latest JAR(~60kB) from [Maven Central][latest-jar].
@@ -36,7 +36,7 @@ This library is published under the [Apache License, Version 2.0](https://www.ap
 [Maven Central]:https://maven-badges.herokuapp.com/maven-central/io.github.pustike/pustike-web
 [Maven Central img]:https://maven-badges.herokuapp.com/maven-central/io.github.pustike/pustike-web/badge.svg
 [latest-jar]:https://search.maven.org/remote_content?g=io.github.pustike&a=pustike-web&v=LATEST
-
+~
 [Javadocs]:https://javadoc.io/doc/io.github.pustike/pustike-web
 [Javadocs img]:https://javadoc.io/badge/io.github.pustike/pustike-web.svg
 

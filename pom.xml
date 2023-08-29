@@ -21,11 +21,11 @@
     <parent>
         <groupId>io.github.pustike</groupId>
         <artifactId>pustike-maven-parent</artifactId>
-        <version>0.1.4</version>
+        <version>0.2.0</version>
     </parent>
 
     <artifactId>pustike-web</artifactId>
-    <version>0.8.0</version>
+    <version>0.9.0</version>
 
     <name>Pustike Web</name>
     <description>Web Application development library</description>
@@ -40,30 +40,29 @@
         <dependency>
             <groupId>io.github.pustike</groupId>
             <artifactId>pustike-json</artifactId>
-            <version>0.2.0</version>
+            <version>0.3.0</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.jetty.toolchain</groupId>
-            <artifactId>jetty-jakarta-servlet-api</artifactId>
-            <version>5.0.2</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>11.0.15</version>
+            <groupId>org.eclipse.jetty.ee10</groupId>
+            <artifactId>jetty-ee10-servlet</artifactId>
+            <version>12.0.0</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.5</version>
+            <version>2.0.7</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.json</artifactId>
-            <version>2.0.1</version>
-            <classifier>module</classifier>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <version>1.1.4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -74,8 +73,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <links>
-                        <link>https://www.javadoc.io/doc/jakarta.servlet/jakarta.servlet-api/5.0.0</link>
-                        <link>https://www.javadoc.io/doc/jakarta.inject/jakarta.inject-api/2.0.0</link>
+                        <link>https://www.javadoc.io/doc/jakarta.servlet/jakarta.servlet-api/6.0.0</link>
+                        <link>https://www.javadoc.io/doc/jakarta.inject/jakarta.inject-api/2.0.1</link>
                     </links>
                 </configuration>
             </plugin>

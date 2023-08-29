@@ -33,8 +33,8 @@ import io.github.pustike.web.servlet.DispatcherServlet;
 import io.github.pustike.web.servlet.WebModuleConfigurer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 
 /**
  * The Jetty Application server.
@@ -95,7 +95,7 @@ public class JettyApplicationServer implements ApplicationServer {
         contextHandler.addServlet(new ServletHolder(new ServerStopperServlet(this)), "/stopServer");
         String resourceBase = webApplication.getResourceBase();
         if (resourceBase != null) {
-            contextHandler.setResourceBase(resourceBase);
+            contextHandler.setBaseResourceAsString(resourceBase);
         }
         contextHandler.setAttribute(WebModuleConfigurer.class.getSimpleName(), webApplication);
         return contextHandler;

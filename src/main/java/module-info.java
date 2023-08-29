@@ -15,14 +15,14 @@
  */
 /**
  * Pustike Web provides API for creating application using RESTful Web Services with
- * a central servlet `DispatcherServlet`, having an API similar to <a href="https://github.com/eclipse-ee4j/jaxrs-api">JAX-RS API</a>.
+ * a central servlet `DispatcherServlet`, having an API similar to <a href="https://github.com/jakartaee/rest">JAX-RS API</a>.
  */
 module io.github.pustike.web {
-    requires transitive jetty.servlet.api;
+    requires transitive jakarta.servlet;
     requires io.github.pustike.inject;
     requires io.github.pustike.json;
 
-    requires static org.eclipse.jetty.servlet;
+    requires static org.eclipse.jetty.ee10.servlet;
 
     exports io.github.pustike.web;
     exports io.github.pustike.web.scope;

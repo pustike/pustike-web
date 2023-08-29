@@ -219,10 +219,12 @@ public final class DispatcherServlet extends HttpServlet {
         try (Closeable ignored = RequestScope.open(request, response)) {
             Object[] parameterValues = parameterResolver.resolveParameters(request, handlerMethod);
             Object returnValue = controllerMethod.invoke(controller, parameterValues);
-            handleReturnValue(response, handlerMethod, returnValue);
+            if (returnValue != null) {
+                handleReturnValue(response, handlerMethod, returnValue);
+            }
         } catch (Exception e) {
             Throwable error = e.getCause() != null ? e.getCause() : e;
-            logger.log(Level.WARNING, "error when handing the request", error);
+            logger.log(Level.WARNING, "error when handling the request", error);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType(ServletUtils.JSON_MEDIA_TYPE.toString());
             try(PrintWriter writer = response.getWriter()) {
