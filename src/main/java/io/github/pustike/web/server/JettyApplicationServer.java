@@ -31,10 +31,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import io.github.pustike.web.servlet.DispatcherServlet;
 import io.github.pustike.web.servlet.WebModuleConfigurer;
+import org.eclipse.jetty.compression.server.CompressionHandler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.gzip.GzipHandler;
-import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
-import org.eclipse.jetty.ee10.servlet.ServletHolder;
+import org.eclipse.jetty.ee11.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee11.servlet.ServletHolder;
 
 /**
  * The Jetty Application server.
@@ -71,9 +71,9 @@ public class JettyApplicationServer implements ApplicationServer {
     private Server createServer(int serverPort) {
         Server server = new Server(serverPort);
         // configure the ProxyConnectionFactory when Jetty server is behind a Load Balancer
-        GzipHandler gzipHandler = new GzipHandler();
-        gzipHandler.setHandler(createServletContextHandler());
-        server.setHandler(gzipHandler);
+        CompressionHandler compressionHandler = new CompressionHandler();
+        compressionHandler.setHandler(createServletContextHandler());
+        server.setHandler(compressionHandler);
         return server;
     }
 
