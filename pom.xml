@@ -31,7 +31,7 @@
     <description>Web Application development library</description>
     <url>https://github.com/pustike/pustike-web</url>
     <properties>
-        <jetty.version>12.1.3</jetty.version>
+        <jetty.version>12.1.4</jetty.version>
     </properties>
 
     <dependencies>
