@@ -24,7 +24,7 @@ To add a dependency using Maven, use the following:
 <dependency>
     <groupId>io.github.pustike</groupId>
     <artifactId>pustike-web</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1</version>
 </dependency>
 ```
 Or, download the latest JAR(~60kB) from [Maven Central][latest-jar].

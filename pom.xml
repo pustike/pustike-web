@@ -21,40 +21,44 @@
     <parent>
         <groupId>io.github.pustike</groupId>
         <artifactId>pustike-maven-parent</artifactId>
-        <version>0.2.0</version>
+        <version>0.3.0</version>
     </parent>
 
     <artifactId>pustike-web</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1</version>
 
     <name>Pustike Web</name>
     <description>Web Application development library</description>
     <url>https://github.com/pustike/pustike-web</url>
     <properties>
+        <servlet-api.version>6.1.0</servlet-api.version>
         <jetty.version>12.1.5</jetty.version>
+        <parsson.version>1.1.7</parsson.version>
+        <pustike-json.version>0.4.0</pustike-json.version>
+        <pustike-inject.version>2.0.0</pustike-inject.version>
+        <slf4j-simple.version>2.0.17</slf4j-simple.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.pustike</groupId>
             <artifactId>pustike-inject</artifactId>
-            <version>2.0.0</version>
+            <version>${pustike-inject.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.pustike</groupId>
             <artifactId>pustike-json</artifactId>
-            <version>0.3.0</version>
+            <version>${pustike-json.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.1.0</version>
+            <version>${servlet-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty.ee11</groupId>
             <artifactId>jetty-ee11-servlet</artifactId>
             <version>${jetty.version}</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty.compression</groupId>
@@ -69,13 +73,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.17</version>
+            <version>${slf4j-simple.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.parsson</groupId>
             <artifactId>parsson</artifactId>
-            <version>1.1.7</version>
+            <version>${parsson.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -86,7 +90,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <links>
-                        <link>https://www.javadoc.io/doc/jakarta.servlet/jakarta.servlet-api/6.1.0</link>
+                        <link>https://www.javadoc.io/doc/jakarta.servlet/jakarta.servlet-api/${servlet-api.version}</link>
                         <link>https://www.javadoc.io/doc/jakarta.inject/jakarta.inject-api/2.0.1</link>
                     </links>
                 </configuration>
