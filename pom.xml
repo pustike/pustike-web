@@ -32,7 +32,7 @@
     <url>https://github.com/pustike/pustike-web</url>
     <properties>
         <servlet-api.version>6.1.0</servlet-api.version>
-        <jetty.version>12.1.5</jetty.version>
+        <jetty.version>12.1.6</jetty.version>
         <parsson.version>1.1.7</parsson.version>
         <pustike-json.version>0.4.0</pustike-json.version>
         <pustike-inject.version>2.0.0</pustike-inject.version>
