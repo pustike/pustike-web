@@ -85,10 +85,10 @@ public abstract class ServletUtils {
             List<String> values = Arrays.asList(form.get(name));
             for (Iterator<String> valueIterator = values.iterator(); valueIterator.hasNext(); ) {
                 String value = valueIterator.next();
-                writer.write(URLEncoder.encode(name, UTF8_CHARSET.name()));
+                writer.write(URLEncoder.encode(name, UTF8_CHARSET));
                 if (value != null) {
                     writer.write('=');
-                    writer.write(URLEncoder.encode(value, UTF8_CHARSET.name()));
+                    writer.write(URLEncoder.encode(value, UTF8_CHARSET));
                     if (valueIterator.hasNext()) {
                         writer.write('&');
                     }

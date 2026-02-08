@@ -25,7 +25,7 @@
     </parent>
 
     <artifactId>pustike-web</artifactId>
-    <version>0.9.1</version>
+    <version>0.9.2</version>
 
     <name>Pustike Web</name>
     <description>Web Application development library</description>
@@ -34,7 +34,7 @@
         <servlet-api.version>6.1.0</servlet-api.version>
         <jetty.version>12.1.6</jetty.version>
         <parsson.version>1.1.7</parsson.version>
-        <pustike-json.version>0.4.0</pustike-json.version>
+        <pustike-json.version>0.3.0</pustike-json.version>
         <pustike-inject.version>2.0.0</pustike-inject.version>
         <slf4j-simple.version>2.0.17</slf4j-simple.version>
     </properties>
@@ -59,16 +59,7 @@
             <groupId>org.eclipse.jetty.ee11</groupId>
             <artifactId>jetty-ee11-servlet</artifactId>
             <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.compression</groupId>
-            <artifactId>jetty-compression-server</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.compression</groupId>
-            <artifactId>jetty-compression-gzip</artifactId>
-            <version>${jetty.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

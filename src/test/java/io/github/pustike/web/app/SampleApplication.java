@@ -18,21 +18,36 @@ package io.github.pustike.web.app;
 import io.github.pustike.inject.bind.Module;
 import io.github.pustike.web.Path;
 import io.github.pustike.web.server.JettyApplicationServer;
+import io.github.pustike.web.server.JettyContextConfigurer;
 import io.github.pustike.web.server.ServerService;
-import io.github.pustike.web.server.WebApplication;
+import org.eclipse.jetty.ee11.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee11.servlet.ServletHolder;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.util.resource.URLResourceFactory;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
- * Sample Application with a simple {@link UserController} to list users.
- *
- * When run on a localhost, the API can be accessed using: http://localhost:8080/api/user/list
+ * Sample Application with a simple {@link UserController} to list users. When run on a localhost, the API can be
+ * accessed using this link: <a href="http://localhost:8080/api/user/list">localhost:8080/api/user/list</a>
  */
 @Path("/api")
-public class SampleApplication extends WebApplication {
+public class SampleApplication implements JettyContextConfigurer {
     public static void main(String[] args) {
         ServerService.run(new JettyApplicationServer(new SampleApplication()), args);
+    }
+
+    @Override
+    public Handler configure(ServletContextHandler contextHandler, ServletHolder servletHolder) {
+        // contextHandler.addEventListener(contextListener);
+        contextHandler.setBaseResource(new URLResourceFactory().newResource(
+                getClass().getResource("/META-INF/resources")));
+        // servletHolder.getRegistration().setMultipartConfig(multipartConfig);
+        /*
+        CompressionHandler compressionHandler = new CompressionHandler();
+        compressionHandler.setHandler(contextHandler);
+        */
+        return contextHandler;
     }
 
     @Override
@@ -42,15 +57,5 @@ public class SampleApplication extends WebApplication {
             // add other controllers here.
         };
         return List.of(controllerModule);
-    }
-
-    @Override
-    public String getResourceBase() {
-        try {
-            return SampleApplication.class.getResource("/webapp").toURI().toString();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

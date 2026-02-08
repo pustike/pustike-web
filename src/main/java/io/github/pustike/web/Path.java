@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * requests for.
  *
  * <p>Paths are relative. For an annotated class the base URI is the application path
- * defined on {@link io.github.pustike.web.server.WebApplication}. For an annotated
+ * defined on {@link io.github.pustike.web.servlet.WebModuleConfigurer}. For an annotated
  * method the base URI is the effective URI of the containing class. For the purposes of absolutizing a
  * path against the base URI , a leading '/' in a path is
  * ignored and base URIs are treated as if they ended in '/'. E.g.:</p>

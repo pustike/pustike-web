@@ -28,6 +28,12 @@ import io.github.pustike.inject.Injectors;
 public abstract class WebServletContextListener implements ServletContextListener {
     static final String INJECTOR_NAME = "root-injector";
 
+    /**
+     * Default Constructor.
+     */
+    public WebServletContextListener() {
+    }
+
     @Override
     public final void contextInitialized(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
@@ -41,7 +47,7 @@ public abstract class WebServletContextListener implements ServletContextListene
      * @param servletContext the servlet context
      * @return the injector instance
      */
-    protected abstract  Injector createInjector(ServletContext servletContext);
+    protected abstract Injector createInjector(ServletContext servletContext);
 
     /**
      * Called after servlet context is initialized

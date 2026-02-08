@@ -44,6 +44,12 @@ public final class RequestScope implements Scope {
     /** A sentinel attribute value representing null. */
     private enum NullObject { INSTANCE }
 
+    /**
+     * Default Constructor.
+     */
+    public RequestScope() {
+    }
+
     @Override
     public <T> Provider<T> scope(BindingKey<T> bindingKey, Provider<T> creator) {
         final String name = bindingKey.toString();
@@ -52,7 +58,7 @@ public final class RequestScope implements Scope {
             if (context == null) {
                 throw new IllegalStateException("Request Context is not open in this scope, for the key:" + name);
             }
-            HttpServletRequest request = context.getRequest();
+            HttpServletRequest request = context.request();
             synchronized (request) {
                 Object obj = request.getAttribute(name);
                 if (NullObject.INSTANCE == obj) {
@@ -94,7 +100,7 @@ public final class RequestScope implements Scope {
      * @return the http servlet request
      */
     public static HttpServletRequest getRequest() {
-        return getContext().getRequest();
+        return getContext().request();
     }
 
     /**
@@ -102,7 +108,7 @@ public final class RequestScope implements Scope {
      * @return the http servlet response
      */
     public static HttpServletResponse getResponse() {
-        return getContext().getResponse();
+        return getContext().response();
     }
 
     private static Context getContext() {
@@ -113,21 +119,6 @@ public final class RequestScope implements Scope {
         return context;
     }
 
-    private static class Context {
-        private final HttpServletRequest request;
-        private final HttpServletResponse response;
-
-        private Context(HttpServletRequest request, HttpServletResponse response) {
-            this.request = request;
-            this.response = response;
-        }
-
-        HttpServletRequest getRequest() {
-            return request;
-        }
-
-        HttpServletResponse getResponse() {
-            return response;
-        }
+    private record Context(HttpServletRequest request, HttpServletResponse response) {
     }
 }

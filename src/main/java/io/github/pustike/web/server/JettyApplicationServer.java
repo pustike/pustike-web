@@ -21,17 +21,15 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 import java.util.Scanner;
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.ServletContextListener;
+
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import io.github.pustike.web.servlet.DispatcherServlet;
 import io.github.pustike.web.servlet.WebModuleConfigurer;
-import org.eclipse.jetty.compression.server.CompressionHandler;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.ee11.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee11.servlet.ServletHolder;
@@ -42,25 +40,26 @@ import org.eclipse.jetty.ee11.servlet.ServletHolder;
 public class JettyApplicationServer implements ApplicationServer {
     private static final Logger logger = System.getLogger(JettyApplicationServer.class.getName());
     private static final String CONTEXT_PATH = "/";
-    private final WebApplication webApplication;
+    private final JettyContextConfigurer contextConfigurer;
     private Server server;
 
     /**
      * Constructs an instance with the given web application configuration.
-     * @param webApplication a user provided web application instance
+     * @param contextConfigurer the jetty context configurer
      */
-    public JettyApplicationServer(WebApplication webApplication) {
-        this.webApplication = Objects.requireNonNull(webApplication);
+    public JettyApplicationServer(JettyContextConfigurer contextConfigurer) {
+        this.contextConfigurer = contextConfigurer;
     }
 
     @Override
     public void start(int serverPort) {
         try {
-            logger.log(Level.DEBUG, "Starting server at port {}", serverPort);
-            server = createServer(serverPort);
+            logger.log(Level.DEBUG, "Starting server at port " + serverPort);
+            Server server = new Server(serverPort);
+            server.setHandler(createServerHandler());
             server.start();
             Runtime.getRuntime().addShutdownHook(newServerStopperThread(false));
-            logger.log(Level.DEBUG, "Server started at port {}", serverPort);
+            logger.log(Level.DEBUG, "Server started at port " + serverPort);
             server.join();
         } catch (Exception ex) {
             logger.log(Level.ERROR, "error while starting the server: ", ex);
@@ -68,37 +67,15 @@ public class JettyApplicationServer implements ApplicationServer {
         }
     }
 
-    private Server createServer(int serverPort) {
-        Server server = new Server(serverPort);
-        // configure the ProxyConnectionFactory when Jetty server is behind a Load Balancer
-        CompressionHandler compressionHandler = new CompressionHandler();
-        compressionHandler.setHandler(createServletContextHandler());
-        server.setHandler(compressionHandler);
-        return server;
-    }
-
-    private ServletContextHandler createServletContextHandler() {
-        ServletContextHandler contextHandler = new ServletContextHandler();
-        contextHandler.setContextPath(CONTEXT_PATH);
+    private Handler createServerHandler() {
+        ServletContextHandler contextHandler = new ServletContextHandler(CONTEXT_PATH);
         contextHandler.setErrorHandler(null);
-        ServletContextListener contextListener = webApplication.getContextListener();
-        if (contextListener != null) {
-            contextHandler.addEventListener(contextListener);
-        }
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
-        MultipartConfigElement multipartConfig = webApplication.getMultipartConfig();
-        if(multipartConfig != null) {
-            servletHolder.getRegistration().setMultipartConfig(multipartConfig);
-        }
         servletHolder.setInitOrder(1);
         contextHandler.addServlet(servletHolder, "/*");
         contextHandler.addServlet(new ServletHolder(new ServerStopperServlet(this)), "/stopServer");
-        String resourceBase = webApplication.getResourceBase();
-        if (resourceBase != null) {
-            contextHandler.setBaseResourceAsString(resourceBase);
-        }
-        contextHandler.setAttribute(WebModuleConfigurer.class.getSimpleName(), webApplication);
-        return contextHandler;
+        contextHandler.setAttribute(WebModuleConfigurer.class.getSimpleName(), contextConfigurer);
+        return contextConfigurer.configure(contextHandler, servletHolder);
     }
 
     private Thread newServerStopperThread(boolean doExitOnStop) {
@@ -112,11 +89,11 @@ public class JettyApplicationServer implements ApplicationServer {
                     if (server.isStopping()) {
                         return;
                     }
-                    logger.log(Level.DEBUG, "stopping the application server...");
+                    // logger.log(Level.DEBUG, "stopping the application server...");
                     server.stop();
-                    logger.log(Level.DEBUG,"the application server is stopped.");
+                    // logger.log(Level.DEBUG,"the application server is stopped.");
                 } catch (Exception ex) {
-                    logger.log(Level.ERROR,"error while stopping the server: ", ex);
+                    // logger.log(Level.ERROR,"error while stopping the server: ", ex);
                     exitStatus = 1;
                 }
                 server = null;
@@ -149,9 +126,7 @@ public class JettyApplicationServer implements ApplicationServer {
 
     @Override
     public void stop(int serverPort) {
-        // Stop the currently running server on the given port.
-        logger.log(System.Logger.Level.DEBUG, "sending request to stop the application server...");
-        Scanner scanner = null;
+        // Stop the currently running server on the given port by sending request to stop it.
         int exitStatus = 0;
         try {
             System.setProperty("java.net.preferIPv4Stack", "true");
@@ -160,16 +135,13 @@ public class JettyApplicationServer implements ApplicationServer {
             String stopServerUrl = pathUrl + (pathUrl.endsWith("/") ? "stopServer" : "/stopServer");
             URLConnection urlConnection = new URL(stopServerUrl).openConnection();
             urlConnection.setUseCaches(false);
-            scanner = new Scanner(urlConnection.getInputStream(), StandardCharsets.UTF_8.name());
-            // String response = scanner.useDelimiter("\\Z").next();
-            // logger.debug("stopped the server with response: " + response);
-        } catch (Exception ex) {
-            logger.log(System.Logger.Level.ERROR, "error while stopping the server!", ex);
-            exitStatus = 1;
-        } finally {
-            if (scanner != null) {
-                scanner.close();
+            try(Scanner ignored = new Scanner(urlConnection.getInputStream(), StandardCharsets.UTF_8)) {
+                // String response = scanner.useDelimiter("\\Z").next();
+                // logger.log(Level.INFO, "stopped the server with response: " + response);
             }
+        } catch (Exception ex) {
+            // logger.log(Level.ERROR, "error while stopping the server!", ex);
+            exitStatus = 1;
         }
         System.exit(exitStatus);
     }

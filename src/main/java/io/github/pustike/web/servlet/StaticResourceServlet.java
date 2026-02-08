@@ -16,7 +16,6 @@
 package io.github.pustike.web.servlet;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
@@ -42,6 +41,12 @@ public abstract class StaticResourceServlet extends HttpServlet {
     private static final int DEFAULT_STREAM_BUFFER_SIZE = 102400;
     private static final String CONTENT_DISPOSITION_HEADER = "inline;filename=\"%1$s\"; filename*=UTF-8''%1$s";
     private static final String ERROR_UNSUPPORTED_ENCODING = "UTF-8 is apparently not supported on this platform.";
+
+    /**
+     * Default Constructor.
+     */
+    public StaticResourceServlet() {
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -245,10 +250,6 @@ public abstract class StaticResourceServlet extends HttpServlet {
         if (string == null) {
             return null;
         }
-        try {
-            return URLEncoder.encode(string, StandardCharsets.UTF_8.name());
-        } catch (UnsupportedEncodingException e) {
-            throw new UnsupportedOperationException(ERROR_UNSUPPORTED_ENCODING, e);
-        }
+        return URLEncoder.encode(string, StandardCharsets.UTF_8);
     }
 }

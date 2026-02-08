@@ -71,17 +71,7 @@ public final class MediaType {
 
             String name = parameter.group(1);
             if (name == null || !name.equalsIgnoreCase("charset")) continue;
-            String charsetParameter;
-            String token = parameter.group(2);
-            if (token != null) {
-                // If the token is 'single-quoted' it's invalid! But we're lenient and strip the quotes.
-                charsetParameter = (token.startsWith("'") && token.endsWith("'") && token.length() > 2)
-                        ? token.substring(1, token.length() - 1)
-                        : token;
-            } else {
-                // Value is "double-quoted". That's valid and our regex group already strips the quotes.
-                charsetParameter = parameter.group(3);
-            }
+            String charsetParameter = getCharsetParameter(parameter);
             if (charset != null && !charsetParameter.equalsIgnoreCase(charset)) {
                 throw new IllegalArgumentException("Multiple charsets defined: \""
                         + charset + "\" and: \"" + charsetParameter + "\" for: \"" + string + '"');
@@ -90,6 +80,19 @@ public final class MediaType {
         }
 
         return new MediaType(string, type, subtype, charset);
+    }
+
+    private static String getCharsetParameter(Matcher parameter) {
+        String token = parameter.group(2);
+        if (token != null) {
+            // If the token is 'single-quoted' it's invalid! But we're lenient and strip the quotes.
+            return (token.startsWith("'") && token.endsWith("'") && token.length() > 2)
+                    ? token.substring(1, token.length() - 1)
+                    : token;
+        } else {
+            // Value is "double-quoted". That's valid and our regex group already strips the quotes.
+            return parameter.group(3);
+        }
     }
 
     /**

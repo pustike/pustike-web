@@ -25,6 +25,12 @@ public class ServerService {
     private static final int DEFAULT_PORT = 8080;
 
     /**
+     * Default Constructor.
+     */
+    public ServerService() {
+    }
+
+    /**
      * The server's main method. {@code pustike start} or {@code pustike stop}
      * @param applicationServer the application server instance
      * @param args the command [start/stop] and an optional port argument [-port=8080].

@@ -20,10 +20,8 @@ import java.util.List;
 import io.github.pustike.inject.bind.Module;
 
 /**
- * Provides a list of modules to be configured for this web application. It can be provided by implementing
- * the {@link io.github.pustike.web.server.WebApplication} which is used to start the application server.
- * Or an implementation of this interface can be defined as {@link DispatcherServlet}'s init parameter
- * by name 'configurer'.
+ * Provides a list of modules to be configured for this web application. An implementation of this interface is
+ * defined as {@link DispatcherServlet}'s init parameter by name 'configurer'.
  */
 public interface WebModuleConfigurer {
     /**

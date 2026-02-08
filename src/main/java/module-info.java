@@ -22,9 +22,7 @@ module io.github.pustike.web {
     requires io.github.pustike.inject;
     requires io.github.pustike.json;
 
-    requires org.eclipse.jetty.ee11.servlet;
-    requires org.eclipse.jetty.compression.server;
-    requires org.eclipse.jetty.compression.gzip;
+    requires static org.eclipse.jetty.ee11.servlet;
 
     exports io.github.pustike.web;
     exports io.github.pustike.web.scope;

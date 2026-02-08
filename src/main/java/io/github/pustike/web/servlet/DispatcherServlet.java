@@ -136,7 +136,7 @@ public final class DispatcherServlet extends HttpServlet {
     private void registerController(Class<?> controllerClass) {
         Path resourceAnn = controllerClass.getDeclaredAnnotation(Path.class);
         String resourcePath = resourceAnn != null ? resourceAnn.value().trim() : null;
-        if (resourcePath == null || resourcePath.length() == 0) {
+        if (resourcePath == null || resourcePath.isEmpty()) {
             return;
         }
         Collection<Integer> visitedMethodHashCodes = new HashSet<>();
@@ -203,9 +203,7 @@ public final class DispatcherServlet extends HttpServlet {
         String pathPattern = pathPatternUriCache.computeIfAbsent(request.getMethod() + '@' + relativePath,
                 s -> findMatchingPathPattern(request.getMethod(), relativePath));
         if (pathPattern == null) { // No matching controller method found for the request
-            // check if static resource can be served
-            staticResourceHandler.service(request, response);
-            return;
+            throw new IllegalStateException( "No matching controller method found for the request: " + relativePath);
         }
         HandlerMethod handlerMethod = patternHandlerMethodMap.get(pathPattern);
         if (handlerMethod == null) {
