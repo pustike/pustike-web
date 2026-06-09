@@ -36,7 +36,7 @@
         <parsson.version>1.1.9</parsson.version>
         <pustike-json.version>0.3.0</pustike-json.version>
         <pustike-inject.version>2.0.0</pustike-inject.version>
-        <slf4j-simple.version>2.0.17</slf4j-simple.version>
+        <slf4j-simple.version>2.0.18</slf4j-simple.version>
     </properties>
 
     <dependencies>
